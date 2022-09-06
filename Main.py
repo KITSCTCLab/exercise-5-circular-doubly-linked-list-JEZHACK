@@ -1,67 +1,72 @@
+from typing import Optional
 class Node:
-    def __init__(self, data=None):
+    def __init__(self, data=None, next=None):
+        """
+        Initialises the Node with given attributes
+        """
         self.data = data
-        self.previous = self
-        self.next = self
+        self.next = next
 
-
-class DoublyCircularLinkedList:
+class LinkedList:
     def __init__(self):
+        """
+        Initialize the head
+        """
         self.head = None
-        self.count = 0
+    def insert_at_end(self, data):
+        new = Node(data, None)
+        current = self.head
+        if current is None:
+            self.head = new
+        else:
+            while current.next is not None:
+                current = current.next
+            current.next = new
 
-    def add_at_tail(self, data) -> bool:
-        # Write code here
+    def status(self):
+        elements = []
+        current = self.head
+        while current:
+            elements.append(current.data)
+            current = current.next
+        print(elements)
 
-    def add_at_head(self, data) -> bool:
-        # Write code here
+class Solution:
+    def addTwoNumbers(self, first_list: Optional[LinkedList], second_list: Optional[LinkedList]) -> Optional[LinkedList]:
+        result = self.get_num(first_list) + self.get_num(second_list)
+        sum_list = LinkedList()
+        for digit in list(map(int, str(result)[::-1])):
+            sum_list.insert_at_end(digit)
+        return sum_list
 
-    def add_at_index(self, index, data) -> bool:
-        # Write code here
+    def get_num(self, l: Optional[LinkedList]) -> int:
+        curr = l.head
+        if curr is None:
+            return 0
+        num = ""
+        while curr is not None:
+            num = str(curr.data) + num
+            curr = curr.next
+        return int(num)
 
-    def get(self, index) -> int:
-        # Write code here
-
-    def delete_at_index(self, index) -> bool:
-        # Write code here
-
-    def get_previous_next(self, index) -> list:
-        # Write code here
-
-
-# Do not change the following code
-operations = []
-for specific_operation in input().split(','):
-    operations.append(specific_operation.strip())
-input_data = input()
-data = []
-iteration_count = 0
-
-for item in input_data.split(', '):
-    inner_list = []
-    if item.isnumeric():
-        data.append(int(item))
-    elif item.startswith('['):
-        item = item[1:-1]
-        for letter in item.split(','):
-            if letter.isnumeric():
-                inner_list.append(int(letter))
-        data.append(inner_list)
-
-obj = DoublyCircularLinkedList()
-result = []
-for i in range(len(operations)):
-    if operations[i] == "add_at_head":
-        result.append(obj.add_at_head(data[i]))
-    elif operations[i] == "add_at_tail":
-        result.append(obj.add_at_tail(data[i]))
-    elif operations[i] == "add_at_index":
-        result.append(obj.add_at_index(int(data[i][0]), data[i][1]))
-    elif operations[i] == "get":
-        result.append(obj.get(data[i]))
-    elif operations[i] == "get_previous_next":
-        result.append(obj.get_previous_next(data[i]))
-    elif operations[i] == 'delete_at_index':
-        result.append(obj.delete_at_index(data[i]))
-
-print(result)
+# Do not edit the following code     
+# Create an instance for LinkedList
+first_list = LinkedList()
+# Create an another instance for LinkedList
+second_list = LinkedList()
+# Read data for first list
+data_for_first_list = list(map(int, input().strip().split(" ")))
+# Add data at the end of first_list
+for data in data_for_first_list:
+    first_list.insert_at_end(data)
+# Read data for second list
+data_for_second_list = list(map(int, input().strip().split(" ")))
+# Add data at the end of second_list
+for data in data_for_second_list:
+    second_list.insert_at_end(data)
+# Create an instance for Solution
+solution = Solution()
+# Pass first_list and second_list to addTwoNumbers, which returns a new linked list
+new_list = solution.addTwoNumbers(first_list, second_list)
+# Display the status of new_list
+new_list.status()
